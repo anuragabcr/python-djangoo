@@ -6,6 +6,7 @@ from rest_framework import mixins, generics
 
 from .models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamSerializer, ReviewSerializer
+from .permissions import AdminOrReadOnly, UserOrReadOnly
 
 
 class WatchReviewAV(generics.ListCreateAPIView):
@@ -21,6 +22,7 @@ class ReviewDetailAV(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.
                      generics.GenericAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [UserOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
